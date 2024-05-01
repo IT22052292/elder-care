@@ -1,0 +1,4 @@
+.Sidebar.Item.active {
+  background-color: blue; /* Change this to your desired active color */
+  color: white; /* Change this to your desired text color for active state */
+}
