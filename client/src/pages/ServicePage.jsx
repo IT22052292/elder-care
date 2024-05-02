@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
+
+
+
 export default function ServiceList() {
   const { currentUser } = useSelector((state) => state.user);
   const [userServices, setUserServices] = useState([]);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [selectedService, setSelectedService] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  
+
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -26,7 +33,7 @@ export default function ServiceList() {
     }
   }, [currentUser]);
 
-  // Load cart data from session storage on component mount
+  // Load cart data from session 
   useEffect(() => {
     const savedCart = JSON.parse(sessionStorage.getItem("cart"));
     if (savedCart) {
@@ -34,7 +41,7 @@ export default function ServiceList() {
     }
   }, []);
 
-  // Save cart data to session storage whenever cart state changes
+  // Save cart data to session storage after changes
   useEffect(() => {
     sessionStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
@@ -46,7 +53,18 @@ export default function ServiceList() {
 
   // Function to add an item to the cart
   const addToCart = (service) => {
-    setCart([...cart, service]);
+    setSelectedService(service);
+    setShowConfirmation(true);
+  };
+
+  // Function to confirm adding item to cart
+  const confirmAddToCart = () => {
+    if (selectedService) {
+      setCart([...cart, selectedService]); // Add the selected service to the cart
+      setShowConfirmation(false);
+      window.location.href = "/cart";
+      
+    }
   };
 
   // Function to calculate the total price of items in the cart
@@ -96,6 +114,17 @@ export default function ServiceList() {
         </div>
       ))}
       
+      {showConfirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+          <div className="bg-white p-8 rounded-lg shadow-md">
+            <p className="text-lg font-semibold mb-4">Add {selectedService?.serviceName} to cart?</p>
+            <div className="flex justify-center space-x-4">
+              <button onClick={confirmAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Confirm</button>
+              <button onClick={() => setShowConfirmation(false)} className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

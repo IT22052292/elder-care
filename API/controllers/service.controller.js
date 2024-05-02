@@ -12,8 +12,18 @@ export const createService = async (req,res,next) =>{
         const savedService = await newService.save();
         res.status(201).json(savedService);
     }catch(error){
-        next(error);
+      
+      if (error.name === 'ValidationError') {
+        const errors = {};
+        for (let field in error.errors) {
+            errors[field] = error.errors[field].message;
+        }
+        res.status(400).json({ errors });
+    } else {
+        console.error('Error creating service:', error);
+        res.status(500).json({ error: "An error occurred while creating the service" });
     }
+  }
 };
 
 //function to read services

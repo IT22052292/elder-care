@@ -73,7 +73,7 @@ export const getOrdersByMonth = async (req, res) => {
 
   
   try {
-    // Validate the month parameter
+    
     const monthIndex = parseFloat(month);
     
     if (isNaN(monthIndex) || monthIndex < 1 || monthIndex > 12) {
