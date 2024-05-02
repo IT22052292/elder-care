@@ -65,7 +65,7 @@ export default function ApplicationList() {
           <input
             type="search"
             id="ref"
-            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+            className="block w-full mb-3 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search Users By Name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

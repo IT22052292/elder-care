@@ -170,5 +170,5 @@ export default function ServiceList() {
         Download as PDF
       </Button>
     </div>
-  );
+    )
 }

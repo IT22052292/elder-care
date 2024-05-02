@@ -115,9 +115,7 @@ export default function ApplicationList() {
       <h1 className="my-7 text-center font-semibold text-3xl">
         All Applications
       </h1>
-      <Button className="" onClick={handleDownloadPDF}>
-        Download List
-      </Button>{" "}
+      
       <form class="max-w-md mx-auto">
         <label
           for="default-search"
@@ -145,7 +143,7 @@ export default function ApplicationList() {
           <input
             type="search"
             id="ref"
-            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="block mb-3 w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search Applications By Vacancy Reference..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -234,6 +232,9 @@ export default function ApplicationList() {
           </div>
         </Modal.Body>
       </Modal>
+      <Button className="mx-auto mt-5" onClick={handleDownloadPDF} color="success">
+        Download List
+      </Button>{" "}
     </div>
   );
 }

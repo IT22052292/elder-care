@@ -21,7 +21,7 @@ export default function ServiceList() {
       }
     };
 
-    if (currentUser && currentUser.isAdmin) {
+    if (currentUser) {
       fetchServices();
     }
   }, [currentUser]);

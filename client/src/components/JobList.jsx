@@ -97,15 +97,9 @@ export default function JobList() {
 
   return (
     <div className="table-auto md:mx-auto p-3">
-      {currentUser.isAdmin && (
-        <Link to={"/add-vacancy"}>
-          <Button className="bg-teal-600">Add Job Vacancy</Button>
-        </Link>
-      )}
+      
       <h1 className="my-7 text-center font-semibold text-3xl">All Vacancies</h1>
-      <Button className="" onClick={handleDownloadPDF}>
-        Download List
-      </Button>{" "}
+      
       
       {currentUser.isAdmin && userJobs.length > 0 ? (
         <div>
@@ -201,6 +195,9 @@ export default function JobList() {
           </div>
         </Modal.Body>
       </Modal>
+      <Button className="mx-auto mt-5" onClick={handleDownloadPDF} color="success">
+        Download List
+      </Button>{" "}
     </div>
   );
 }

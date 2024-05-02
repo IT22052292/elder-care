@@ -14,6 +14,7 @@ import {
   
 } from "react-icons/hi";
 import { MdDesignServices } from "react-icons/md";
+import { BiSolidPurchaseTagAlt } from "react-icons/bi";
 
 import { FaList } from "react-icons/fa6";
 import "../SidebarDash.css";
@@ -95,7 +96,7 @@ export default function SidebarDash() {
             <Link to="/dashboard?tab=orders">
               <Sidebar.Item
                 active={tab === "orders"}
-                icon={MdDesignServices}
+                icon={BiSolidPurchaseTagAlt }
                 as="div"
               >
                 Orders

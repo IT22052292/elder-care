@@ -9,23 +9,25 @@ export default function ProfileDash() {
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {
-
-    try{
-
+    try {
+      
+      sessionStorage.removeItem("currentUser");
+      sessionStorage.removeItem("token");
+      sessionStorage.clear();
+  
       dispatch(signOutUserStart());
-      const res= await fetch('/API/auth/signOut');
+      const res = await fetch('/API/auth/signOut');
       const data = await res.json();
-      if(data.success===false){
+      if (data.success === false) {
         dispatch(signOutUserFailure(data.message));
         return;
       }
       dispatch(signOutUserSuccess(data.message));
-
-    } catch(error){
+    } catch (error) {
       dispatch(signOutUserFailure(error.message));
-
     }
   };
+  
 
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
@@ -59,16 +61,18 @@ export default function ProfileDash() {
       {currentUser.isAdmin && (
         <p className="my-7 text-center font-semibold text-2xl text-cyan-600">Actions</p>
       )}
+      <div className="m-auto items-center text-center">
       {currentUser.isAdmin && (
         <Link to={"/add-vacancy"}>
-          <Button className="bg-teal-600">Add Job Vacancy</Button>
+          <Button className="bg-teal-600 inline-flex  mr-2">Add Job Vacancy</Button>
         </Link>
       )}
       {currentUser.isAdmin && (
         <Link to={"/add-service"}>
-          <Button className="my-7 bg-teal-600">Add Extra Service</Button>
+          <Button className="my-7 bg-teal-600 inline-flex ml-2">Add Extra Service</Button>
         </Link>
       )}
+      </div>
     </div>
   );
 }

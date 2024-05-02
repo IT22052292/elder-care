@@ -35,7 +35,7 @@ export default function Cart() {
       }));
 
       const orderData = {
-        orderId: uuidv4(),
+        
         customerName: currentUser.username,
         orderItems: orderItems, // Example price
         totalPrice: total,

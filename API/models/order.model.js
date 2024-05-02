@@ -10,11 +10,7 @@ const orderItemSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema(
   {
 
-    orderId: {
-      type: String,
-      required:true,
-      
-    },
+   
     customerName:{
         type: String,
         required:true,
@@ -32,6 +28,10 @@ const orderSchema = new mongoose.Schema(
         type:Number,
         required:true,
         
+    },
+    orderStatus:{
+      type:String,
+      default:"Unfulfilled"
     },
 
   },
