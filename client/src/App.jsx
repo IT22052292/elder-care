@@ -22,6 +22,7 @@ import UpdateService from "./pages/UpdateService"
 import ServicePage from "./pages/ServicePage";
 import Cart from "./pages/Cart";
 import OrderList from "./components/OrderList";
+import  UpdateOrder  from "./pages/UpdateOrder";
 
 export default function App() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
         <Route element={<AdminPrivateRoute />}>
           <Route path="/add-service" element={<AddService />} />
           <Route path="/update-service/:serviceId" element={<UpdateService />} />
+          <Route path="/update-order/:orderId" element={<UpdateOrder />} />
           
         </Route>
 

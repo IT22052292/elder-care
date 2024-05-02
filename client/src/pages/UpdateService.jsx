@@ -70,9 +70,6 @@ export default function UpdateService(){
 
        <div>
         <h1 class="mb-4 mt-5 text-2xl text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white">Add Service</h1>
-
-        
-
 <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
   <div class="relative z-0 w-full mb-5 group">
       <input type="text" name="serviceName" id="serviceName" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required 

@@ -4,10 +4,12 @@ import {Button} from "flowbite-react";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { NavLink } from "react-router-dom";
 
 export default function OrderList() {
   const { currentUser } = useSelector((state) => state.user);
   const [userOrders, setUserOrders] = useState([]);
+  const [orderId, setOrderId] = useState("");
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -108,14 +110,12 @@ export default function OrderList() {
                           {order.orderStatus}
                         </td>
                         <td rowSpan={order.orderItems.length} className="px-6 py-4 center  border border-gray-300">
+                        <NavLink  to={`/update-order/${order._id}`}>
                         <span
-                          onClick={() => {
-                          setShowModal(true);
-                          setServiceId(order._id);
-                           }}
-                          className="font-medium text-red-500 hover:underline cursor-pointer">
+                          className="font-medium text-red-500 hover:underline cursor-pointer"  >
                         Update
                         </span>
+                        </NavLink>
                         </td>
 
                       </>

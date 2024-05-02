@@ -47,3 +47,52 @@ export const getOrder = async (req, res, next) => {
     next(error);
   }
 };
+
+//function to update servic status
+export const updateOrder = async (req,res,next) =>{
+  try{
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.orderId,
+      {
+        $set:{
+          orderStatus: req.body.orderStatus,
+        },
+      },
+      {new: true}
+    );
+    res.status(200).json(updatedOrder);
+  }catch(error){
+    next(error);
+
+  }
+};
+//function to get orders by mont
+
+export const getOrdersByMonth = async (req, res) => {
+  const {month} = req.params;
+
+  
+  try {
+    // Validate the month parameter
+    const monthIndex = parseFloat(month);
+    
+    if (isNaN(monthIndex) || monthIndex < 1 || monthIndex > 12) {
+      return res.status(400).json({ message: "Invalid month value" });
+    }
+
+    // Construct start and end dates for the specified month
+    const startDate = new Date(new Date().getFullYear(), monthIndex - 1, 1);
+    const endDate = new Date(new Date().getFullYear(), monthIndex, 0);
+
+    // Retrieve orders within the specified date range
+    const orders = await Order.find({
+      createdAt: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    });
+    res.json({ orders });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
