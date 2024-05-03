@@ -53,8 +53,17 @@ export default function ServiceList() {
 
   // Function to add an item to the cart
   const addToCart = (service) => {
-    setSelectedService(service);
-    setShowConfirmation(true);
+    
+    const isAlreadyInCart = cart.some((item) => item._id === service._id);
+  
+    if (isAlreadyInCart) {
+      
+      alert("This item is already in the cart.");
+    } else {
+      
+      setSelectedService(service);
+      setShowConfirmation(true);
+    }
   };
 
   // Function to confirm adding item to cart

@@ -11,6 +11,8 @@ export default function Cart() {
   console.log("Retrieved total from sessionStorage:", total);
   const { currentUser } = useSelector((state) => state.user);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   //Function to remove an item 
   const removeFromCart = (index, price) => {

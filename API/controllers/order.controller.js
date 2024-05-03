@@ -4,16 +4,26 @@ import { errorHandler } from "../utils/error.js";
 //creating an order
 
 
-export const createOrder = async (req,res,next) =>{
-  const newOrder = new Order({
-      ...req.body,
-  });
+export const createOrder = async (req, res, next) => {
+  try {
+    //function to see if the order exists
+    const existingOrder = await Order.findOne({
+      customerName: req.body.customerName,
+      orderStatus: { $ne: 'Fulfilled' }, //Check for orders that are not yet fulfilled
+    });
 
-  try{
-      const savedOrder = await newOrder.save();
-      res.status(201).json(savedOrder);
-  }catch(error){
-      next(error);
+    if (existingOrder) {
+      return res.status(400).json({ message: "You already have an unfulfilled order. Please wait until it is fulfilled before placing another order." });
+      
+    }
+
+    // Create a new order
+    const newOrder = new Order({ ...req.body });
+    const savedOrder = await newOrder.save();
+    res.status(201).json(savedOrder);
+  } catch (error) {
+    
+    
   }
 };
 
