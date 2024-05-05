@@ -61,7 +61,6 @@ export default function ApplicationList() {
       console.log(error.message);
     }
   };
-
   const handleDownloadPDF = () => {
     const input = document.getElementById("applist");
 
