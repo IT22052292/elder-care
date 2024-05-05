@@ -25,7 +25,6 @@ function Recruit() {
     e.preventDefault();
 
     try {
-     
       const emailResponse = await fetch("/API/sendmail/send-email", {
         method: "POST",
         headers: {
@@ -34,34 +33,31 @@ function Recruit() {
         body: JSON.stringify(formData),
       });
 
-     
       if (!emailResponse.ok) {
         const errorText = await emailResponse.text();
         throw new Error(`Error sending email: ${errorText}`);
       }
 
-      
       const emailData = await emailResponse.json();
 
-      
-      const statusResponse = await fetch(`/API/application/updatestatus/${appId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: "ACCEPTED" }),
-      });
+      const statusResponse = await fetch(
+        `/API/application/updatestatus/${appId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "ACCEPTED" }),
+        }
+      );
 
-     
       if (!statusResponse.ok) {
         const errorText = await statusResponse.text();
         throw new Error(`Error updating application status: ${errorText}`);
       }
 
-     
       alert(emailData.message);
 
-     
       setFormData({
         email: formData.email,
         name: formData.name,
@@ -69,10 +65,8 @@ function Recruit() {
         time: "",
       });
 
-      
       navigate("/dashboard?tab=applications");
     } catch (error) {
-     
       console.error("Error:", error);
       alert(`Error: ${error.message}`);
     }
@@ -83,6 +77,12 @@ function Recruit() {
       <h1 className="text-center text-3xl my-7 font-semibold">
         Employee Recruit Terminal
       </h1>
+
+      <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+        Select interview date and time for the candidate | the details will be
+        sent to the applicant via a system generated E-mail
+      </p>
+
       <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
         {/* Email input */}
         <div>
@@ -159,7 +159,7 @@ function Recruit() {
         </div>
 
         <Button type="submit" className="mt-4 px-4 py-2 rounded">
-          Send E-mail
+          Generate E-mail
         </Button>
       </form>
     </div>

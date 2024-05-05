@@ -9,6 +9,22 @@ export default function ServiceList() {
   const [total, setTotal] = useState(0);
   const [selectedService, setSelectedService] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchBy, setSearchBy] = useState("name");
+
+  const filteredServices = userServices.filter((service) => {
+    if (searchBy === "name") {
+      return (
+        service.serviceName &&
+        service.serviceName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      return (
+        service.serviceCategory &&
+        service.serviceCategory.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+  });
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -77,7 +93,45 @@ export default function ServiceList() {
       <h2 className="mb-5 mt-5 text-3xl font-bold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white text-center">
         Services
       </h2>
-      {userServices.map((service) => (
+      <form className="max-w-md mx-auto flex items-center justify-center m-4">
+          <div className="relative flex items-center">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="ref"
+              className="block w-max p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder={`Search Services`}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              required
+            />
+            <select
+          className="block w-3 ml-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Select"
+          value={searchBy}
+          onChange={(e) => setSearchBy(e.target.value)}
+        >
+          <option value="name">Name</option>
+          <option value="category">Category</option>
+        </select>
+          </div>
+        </form>
+      {filteredServices.map((service) => (
         <div
           className="m-3 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col"
           key={service._id}

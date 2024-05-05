@@ -75,6 +75,8 @@ export default function SidebarDash() {
             
           </Link>
 
+          
+
           {currentUser && !currentUser.isAdmin && (
             <Link to="/dashboard?tab=userOrders">
               <Sidebar.Item
@@ -142,7 +144,21 @@ export default function SidebarDash() {
                 Orders
               </Sidebar.Item>
             </Link>
+
+            
           )}
+
+          
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item
+                active={tab === "dash"}
+                icon={HiChartPie}
+                as="div"
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+
           <Link onClick={handleSignOut}>
           <Sidebar.Item
             icon={HiArrowSmRight}

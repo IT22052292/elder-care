@@ -15,6 +15,43 @@ export default function dash() {
 
 
   const { currentUser } = useSelector((state) => state.user);
+ 
+  const [accApp, setAccApp] = useState(0); // accepted allpications
+  const [penApp, setPenApp] = useState(0); // pen allpications
+
+ 
+
+  useEffect(() => {
+    const fetchVacancy = async () => {
+      try {
+        const res = await fetch("/API/post/getjobs");
+        const data = await res.json();
+        if (res.ok) {
+          setTotalVacancy(data.totalVacancy);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    const fetchAppli = async () => {
+      try {
+        const res = await fetch("/API/application/getapplications");
+        const data = await res.json();
+        if (res.ok) {
+          setTotalApp(data.totalApp);
+          setAccApp(data.acceptedCount);
+          setPenApp(data.pendingCount);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    if (currentUser.isAdmin) {
+      fetchVacancy();
+      fetchAppli();
+    }
+  });
 
   useEffect(() => {
     const fetchVacancy = async () => {
@@ -144,6 +181,30 @@ export default function dash() {
                 Total Applications
               </h3>
               <p className="text-2xl">{totalApp}</p>
+              <HiDocumentDuplicate className="bg-green-500 text-white rounded-full text-5xl p-3 " />
+            </div>
+          </Link>
+        </div>
+      </div>
+      <div className="flex-wrap flex gap-4 justify-center">
+        <div className="flex flex-col gap-4 md:w-72 w-full rounded-md shadow-md">
+          <Link to="/dashboard?tab=jobs">
+            <div className="felx justify-between">
+              <h3 className="text-gray-500 text-md uppercase">
+                Accepted Applications
+              </h3>
+              <p className="text-2xl">{accApp}</p>
+              <HiDocumentText className="bg-teal-500 text-white rounded-full text-5xl p-3 " />
+            </div>
+          </Link>
+        </div>
+        <div className="flex flex-col gap-4 md:w-72 w-full rounded-md shadow-md">
+          <Link to="/dashboard?tab=applications">
+            <div className="felx justify-between">
+              <h3 className="text-gray-500 text-md uppercase">
+                Pending Applications
+              </h3>
+              <p className="text-2xl">{penApp}</p>
               <HiDocumentDuplicate className="bg-green-500 text-white rounded-full text-5xl p-3 " />
             </div>
           </Link>

@@ -111,7 +111,7 @@ export default function AddJob() {
             onChange={(e) =>
               setFormData({ ...formData, reference: e.target.value })
             }
-            pattern="\S+"
+            pattern="\S+" // no spaces
             title="Spaces are not allowed."
           ></TextInput>
         </div>
@@ -122,6 +122,8 @@ export default function AddJob() {
             required
             id="title"
             className="flex-1"
+            pattern="[a-zA-Z0-9\s]*" // Allows letters, numbers, and spaces
+            title="Please enter only letters and numbers."
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }

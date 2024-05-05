@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Table, TableCell, TableRow, Modal, Button } from "flowbite-react";
-import { Link, unstable_useViewTransitionState } from "react-router-dom";
-import { HiDocumentText } from "react-icons/hi";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
-
-//for view pdf
+import {
+  Table,
+  TableCell,
+  TableRow,
+  Modal,
+  Button,
+  ToggleSwitch,
+} from "flowbite-react";
+import { Link } from "react-router-dom";
+import { HiDocumentText, HiOutlineExclamationCircle } from "react-icons/hi";
 import { getStorage } from "firebase/storage";
-
 import { app } from "../firebase";
-
 import jsPDF from "jspdf";
-
 import "jspdf-autotable";
 
 export default function ApplicationList() {
   const { currentUser } = useSelector((state) => state.user);
   const [userApp, setUserApp] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [appId, setAppId] = useState(" ");
+  const [appId, setAppId] = useState("");
   const storage = getStorage(app);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(userApp);
+  const [showPending, setShowPending] = useState(false);
+
   useEffect(() => {
     const fetchApp = async () => {
       try {
@@ -55,23 +57,24 @@ export default function ApplicationList() {
         console.log(data.message);
       } else {
         // Update the state directly without reloading the page
-        setUserApp(prevApps => prevApps.filter(app => app._id !== appId));
+        setUserApp((prevApps) => prevApps.filter((app) => app._id !== appId));
       }
     } catch (error) {
       console.log(error.message);
     }
   };
+
   const handleDownloadPDF = () => {
     const input = document.getElementById("applist");
 
     if (!input) {
-      console.error("Element with ID 'joblist' not found.");
+      console.error("Element with ID 'applist' not found.");
       return;
     }
 
     const tableData = [];
 
-    // read table data
+    // Read table data
     const rows = input.querySelectorAll("tr");
     rows.forEach((row) => {
       const rowData = [];
@@ -87,15 +90,14 @@ export default function ApplicationList() {
     pdf.autoTable({
       head: [
         [
-          "Date Submited",
+          "Date Submitted",
           "#Ref",
           "Name",
           "Phone",
           "E-mail",
           "CV",
           "STATUS",
-          
-         
+          "Actions",
         ],
       ],
       body: tableData,
@@ -104,31 +106,34 @@ export default function ApplicationList() {
     pdf.save("application_list.pdf");
   };
 
-
-
-  //to search
-  const filterApp =
-    searchTerm.trim() === ""
+  
+  const filterApp = () => {
+    if (showPending) {
+      return userApp.filter((app) => app.status === "PENDING");
+    }
+    return searchTerm.trim() === ""
       ? userApp
       : userApp.filter((app) => app.vacancyReference.includes(searchTerm));
+  };
 
   return (
     <div className="table-auto md:mx-auto p-3">
       <h1 className="my-7 text-center font-semibold text-3xl">
         All Applications
       </h1>
-      
-      <form class="max-w-md mx-auto">
+
+     
+      <form className="max-w-md mx-auto">
         <label
-          for="default-search"
-          class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          htmlFor="default-search"
+          className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
         >
           Search
         </label>
-        <div class="relative">
-          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <div className="relative">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
-              class="w-4 h-4 text-gray-500 dark:text-gray-400"
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
               fill="none"
               viewBox="0 0 20 20"
@@ -145,7 +150,7 @@ export default function ApplicationList() {
           <input
             type="search"
             id="ref"
-            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search Applications By Vacancy Reference..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -153,6 +158,17 @@ export default function ApplicationList() {
           />
         </div>
       </form>
+
+      {/* Toggle  */}
+      <div className="flex justify-center my-4">
+        <ToggleSwitch
+          checked={showPending}
+          onChange={() => setShowPending(!showPending)}
+          label="Show Pending Applications Only"
+        />
+      </div>
+
+      
       <Table hoverable id="applist">
         <Table.Head>
           <Table.HeadCell>Date Submitted</Table.HeadCell>
@@ -165,9 +181,9 @@ export default function ApplicationList() {
           <Table.HeadCell>Actions</Table.HeadCell>
         </Table.Head>
 
-        {filterApp.map((apps) => (
+        {filterApp().map((apps) => (
           <Table.Body key={apps._id}>
-            <TableRow className="bg-white dark:border-gray-700  dark:bg-gray-800">
+            <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
               <TableCell>
                 {new Date(apps.updatedAt).toLocaleDateString()}
               </TableCell>
@@ -181,13 +197,13 @@ export default function ApplicationList() {
               </TableCell>
               <TableCell className="text-gray-600">{apps.fullName}</TableCell>
               <TableCell className="text-gray-600">{apps.phone}</TableCell>
-              <TableCell className="text-grey-600">{apps.email}</TableCell>
+              <TableCell className="text-gray-600">{apps.email}</TableCell>
               <TableCell className="text-blue-600">
                 <span
                   className="font-medium text-blue-600 dark:text-white cursor-pointer"
                   onClick={() => viewPDF(apps.cv)}
                 >
-                  <HiDocumentText className="inline-block mr-2 " />
+                  <HiDocumentText className="inline-block mr-2" />
                   Click to View
                 </span>
               </TableCell>
@@ -215,10 +231,8 @@ export default function ApplicationList() {
               </TableCell>
               <TableCell>
                 {apps.status === "ACCEPTED" ? (
-                  // If apps.status is "ACCEPTED", display "RECRUITED" in blue
-                  <span className="font-medium text-blue-500">.</span>
+                  <span className="font-medium text-blue-500">RECRUITED</span>
                 ) : (
-                  // If apps.status is not "ACCEPTED", display the RECRUIT link
                   <Link
                     to={`/recruit/${apps.email}/${apps.fullName}/${apps._id}`}
                     className="font-medium text-yellow-500 hover:underline cursor-pointer"
@@ -231,6 +245,8 @@ export default function ApplicationList() {
           </Table.Body>
         ))}
       </Table>
+
+     
       <Modal
         show={showModal}
         onClose={() => setShowModal(false)}
@@ -249,12 +265,14 @@ export default function ApplicationList() {
                 Yes, Delete{" "}
               </Button>
               <Button onClick={() => setShowModal(false)} color="gray">
-                No,Back{" "}
+                No, Back{" "}
               </Button>
             </div>
           </div>
         </Modal.Body>
       </Modal>
+
+    
       <Button
         className="mx-auto mt-5"
         onClick={handleDownloadPDF}
@@ -262,7 +280,6 @@ export default function ApplicationList() {
       >
         Download as PDF
       </Button>
-      
     </div>
   );
 }
