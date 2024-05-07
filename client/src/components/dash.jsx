@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { HiDocumentText, HiDocumentDuplicate } from "react-icons/hi";
 import { PiCurrencyCircleDollarFill } from "react-icons/pi";
 
+import { AiFillFileExclamation } from "react-icons/ai";
+import { AiOutlineFileDone } from "react-icons/ai";
+import { IoBagHandleSharp } from "react-icons/io5";
+import { BiDollarCircle } from "react-icons/bi";
+
 export default function dash() {
   const [totalVacancy, setTotalVacancy] = useState(0);
   const [totalApp, setTotalApp] = useState(0);
@@ -194,7 +199,7 @@ export default function dash() {
                 Accepted Applications
               </h3>
               <p className="text-2xl">{accApp}</p>
-              <HiDocumentText className="bg-teal-500 text-white rounded-full text-5xl p-3 " />
+              <AiOutlineFileDone className="bg-teal-500 text-white rounded-full text-5xl p-3 " />
             </div>
           </Link>
         </div>
@@ -205,11 +210,12 @@ export default function dash() {
                 Pending Applications
               </h3>
               <p className="text-2xl">{penApp}</p>
-              <HiDocumentDuplicate className="bg-green-500 text-white rounded-full text-5xl p-3 " />
+              <AiFillFileExclamation className="bg-green-500 text-white rounded-full text-5xl p-3 " />
             </div>
           </Link>
         </div>
       </div>
+      <hr class="w-48 h-1 mx-auto  bg-gray-100 border-0 rounded md:my-10 dark:bg-gray-700"></hr>
       <div className="mt-5">
         <div className="inline-flex flex-col gap-4 md:w-72 w-full rounded-md shadow-md mx-auto">
           <Link to="/dashboard?tab=orders">
@@ -218,7 +224,7 @@ export default function dash() {
                 Total Revenue
               </h3>
               <p className="text-2xl">$ {totalRevenue}</p>
-              <PiCurrencyCircleDollarFill className="bg-black text-white rounded-full text-5xl p-3 " />
+              <IoBagHandleSharp className="bg-teal-500 text-white rounded-full text-5xl p-3 " />
             </div>
           </Link>
         </div>
@@ -229,7 +235,7 @@ export default function dash() {
                 Total Orders
               </h3>
               <p className="text-2xl">{totalOrder}</p>
-              <PiCurrencyCircleDollarFill className="bg-black text-white rounded-full text-5xl p-3 " />
+              <PiCurrencyCircleDollarFill className="bg-green-500 text-white rounded-full text-5xl p-3 " />
             </div>
           </Link>
         </div>
@@ -244,7 +250,7 @@ export default function dash() {
               Revenue for the month of {monthName}
             </h3>
             <p className="text-2xl">$ {monthlyRevenue}</p>
-            <PiCurrencyCircleDollarFill className="bg-black text-white rounded-full text-5xl p-3 " />
+            <BiDollarCircle className="bg-black text-white rounded-full text-5xl p-3 " />
           </div>
           </Link>
         </div>

@@ -18,7 +18,7 @@ export default function Header() {
   if (currentUser) {
   }
   return (
-    <Navbar className="bg-gradient-to-r from-sky-600 to-sky-800 ... shadow-xl ">
+    <Navbar className="bg-gradient-to-r from-sky-600 to-green-800 ...">
       <Link
         to="/home"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"

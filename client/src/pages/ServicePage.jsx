@@ -39,7 +39,9 @@ export default function ServiceList() {
       }
     };
 
-    if (currentUser) {
+
+
+    if (currentUser || !currentUser ) {
       fetchServices();
     }
   }, [currentUser]);
@@ -152,7 +154,7 @@ export default function ServiceList() {
                 <p className="mr-3 font-normal text-gray-700 dark:text-gray-400">
                   Price: ${service.servicePrice}
                 </p>
-                {!currentUser.isAdmin && ( // Render only if the user is not an admin
+                {!currentUser || !currentUser.isAdmin && ( // Render only if the user is not an admin
 
                 <button
                   onClick={() => addToCart(service)}

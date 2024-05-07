@@ -148,7 +148,7 @@ export default function SidebarDash() {
             
           )}
 
-          
+          {currentUser.isAdmin && (
             <Link to="/dashboard?tab=dash">
               <Sidebar.Item
                 active={tab === "dash"}
@@ -158,6 +158,7 @@ export default function SidebarDash() {
                 Dashboard
               </Sidebar.Item>
             </Link>
+          )}
 
           <Link onClick={handleSignOut}>
           <Sidebar.Item
